@@ -14,6 +14,5 @@ public class Ingredient {
         VEGGIES,
         CHEESE,
         SAUCE
-
     }
 }
