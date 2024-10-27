@@ -2,9 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>spring_in_action</title>
-    <link rel="stylesheet" th:href="@{/styles.css}"/>
+    <title>Taco Cloud</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
 </head>
 
 <body>
@@ -17,16 +16,15 @@
     <h3>Your tacos in this order:</h3>
     <a th:href="@{/design}" id="another">Design another taco</a><br/>
     <ul>
-        <li th:each="taco : ${tacoOrder.tacos}">
-            <span th:text="${taco.name}">taco name</span></li>
+        <li th:each="taco : ${tacoOrder.tacos}"><span th:text="${taco.name}">taco name</span></li>
     </ul>
 
-    <!-- end::allButValidation[] -->
     <div th:if="${#fields.hasErrors()}">
         <span class="validationError">
         Please correct the problems below and resubmit.
         </span>
     </div>
+
     <h3>Deliver my taco masterpieces to...</h3>
     <label for="deliveryName">Name: </label>
     <input type="text" th:field="*{deliveryName}"/>
@@ -87,5 +85,6 @@
 
     <input type="submit" value="Submit Order"/>
 </form>
+
 </body>
 </html>

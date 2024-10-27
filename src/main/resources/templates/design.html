@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring in action</title>
-    <link rel="stylesheet" th:href="@{/styles.css}"/>
+    <title>Taco Cloud</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
 </head>
 
 <body>
@@ -15,6 +15,7 @@
     <span class="validationError"
           th:if="${#fields.hasErrors('ingredients')}"
           th:errors="*{ingredients}">Ingredient Error</span>
+
     <div class="grid">
         <div class="ingredient-group" id="wraps">
             <h3>Designate your wrap:</h3>
@@ -61,7 +62,10 @@
             </div>
         </div>
     </div>
+
     <div>
+
+
         <h3>Name your taco creation:</h3>
         <input type="text" th:field="*{name}"/>
         <span class="validationError"

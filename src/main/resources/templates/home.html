@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Spring in action</title>
+    <title>Taco Cloud</title>
 </head>
+
 <body>
 <h1>Welcome to...</h1>
-<img th:src="@{/images/spring_in_action.png}">
+<img th:src="@{/images/spring_in_action.png}"/>
+
+<a th:href="@{/design}" id="design">Design a taco</a>
 </body>
 </html>
