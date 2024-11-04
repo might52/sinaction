@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  postgres:
+    container_name: postgres_container
+    hostname: postgres_clean
+    image: postgres:11.13
+    environment:
+      POSTGRES_PASSWORD: postgres
+    privileged: true
+    tty: true
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+
+  cassandra:
+    container_name: cassandra_container
+    ports:
+      - "9042:9042"
+    image: cassandra:latest
