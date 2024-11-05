@@ -7,3 +7,8 @@ spring:
     generate-unique-name: false
     name: tacocloud
     url: "jdbc:h2:mem:tacocloud"
+
+logging:
+  level:
+    root: info
+    org.springframework.security: info
