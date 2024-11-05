@@ -3,6 +3,22 @@ spring:
     name: sinaction
   thymeleaf:
     cache: false
+  profiles:
+    active:
+      development
+
+taco:
+  orders:
+    page-size: 20
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile:
+        development
+
   datasource:
     generate-unique-name: false
     name: tacocloud
@@ -13,9 +29,18 @@ logging:
     root: info
     org.springframework.security: info
 
-greeting:
-  welcome: Welcome to user ${spring.application.name}
+---
+spring:
+  config:
+    activate:
+      on-profile:
+        prod
 
-taco:
-  orders:
-    page-size: 20
+  datasource:
+    url: jdbc:postgresql://localhost/tacocloud
+    username: tacouser
+    password: tacopassword
+
+logging:
+  level:
+    tacos: WARN
