@@ -6,9 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.might.sinaction.db.entity.TacoOrder;
 import org.might.sinaction.db.entity.User;
 import org.might.sinaction.db.repositories.OrderRepository;
+import org.might.sinaction.properties.OrderProps;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,10 +28,12 @@ import org.springframework.web.bind.support.SessionStatus;
 public class OrderConroller {
 
     private final OrderRepository orderRepository;
+    private final OrderProps orderProps;
 
     @Autowired
-    public OrderConroller(OrderRepository orderRepository) {
+    public OrderConroller(OrderRepository orderRepository, OrderProps orderProps) {
         this.orderRepository = orderRepository;
+        this.orderProps = orderProps;
     }
 
     @GetMapping("/current")
@@ -62,5 +68,16 @@ public class OrderConroller {
         orderRepository.save(order);
         sessionStatus.setComplete();
         return "redirect:/";
+    }
+
+    @GetMapping
+    public String ordersForUser(
+            @AuthenticationPrincipal User user, Model model) {
+
+        Pageable pageable = PageRequest.of(0, orderProps.getPageSize());
+        model.addAttribute("orders",
+                orderRepository.findByUserOrderByPlacedAtDesc(user, pageable));
+
+        return "orderList";
     }
 }
