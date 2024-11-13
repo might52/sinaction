@@ -11,6 +11,7 @@
     <groupId>org.might</groupId>
     <artifactId>sinaction</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>sinaction</name>
     <description>sinaction</description>
     <url/>
@@ -25,6 +26,10 @@
             <email>answers_com@hotmail.com</email>
         </developer>
     </developers>
+    <modules>
+        <module>auth_server</module>
+        <module>business</module>
+    </modules>
     <scm>
         <connection/>
         <developerConnection/>
