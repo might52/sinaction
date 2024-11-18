@@ -1,6 +1,7 @@
 package org.might.auth_server;
 
 import org.might.auth_server.users.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,15 +18,14 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(authorizeRequests -> {
-            authorizeRequests.anyRequest().authenticated();
-        }).formLogin(configurer -> {
-            configurer.loginPage("/login");
-        }).build();
+        return http.authorizeRequests(authorizeRequests ->
+                        authorizeRequests.anyRequest().authenticated())
+                .formLogin()
+                .and().build();
     }
 
     @Bean
-    UserDetailsService userDetailsService(UserRepository userRepository) {
+    UserDetailsService userDetailsService(@Autowired UserRepository userRepository) {
         return userRepository::findByUsername;
     }
 

@@ -2,6 +2,7 @@ package org.might.sinaction.rest;
 
 import org.might.sinaction.db.entity.TacoOrder;
 import org.might.sinaction.db.repositories.OrderRepository;
+import org.might.sinaction.messaging.OrderReceiver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,10 +26,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class TacoOrderContoller {
 
     private final OrderRepository orderRepository;
+    private final OrderReceiver orderReceiver;
 
     @Autowired
-    public TacoOrderContoller(OrderRepository orderRepository) {
+    public TacoOrderContoller(OrderRepository orderRepository, OrderReceiver orderReceiver) {
         this.orderRepository = orderRepository;
+        this.orderReceiver = orderReceiver;
     }
 
     @PutMapping(path = "/{orderId}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -85,6 +89,11 @@ public class TacoOrderContoller {
             orderRepository.deleteById(orderId);
         } catch (EmptyResultDataAccessException e) {
         }
+    }
+
+    @GetMapping(value = "/receiveOrder", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TacoOrder> receiveOrder() {
+        return new ResponseEntity<>(orderReceiver.receiveOrder(), HttpStatus.OK);
     }
 
 }

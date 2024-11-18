@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.might.sinaction.db.entity.TacoOrder;
 import org.might.sinaction.db.entity.User;
 import org.might.sinaction.db.repositories.OrderRepository;
+import org.might.sinaction.messaging.OrderMessagingService;
 import org.might.sinaction.properties.OrderProps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -25,15 +26,17 @@ import org.springframework.web.bind.support.SessionStatus;
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("tacoOrder")
-public class OrderConroller {
+public class OrderController {
 
     private final OrderRepository orderRepository;
     private final OrderProps orderProps;
+    private final OrderMessagingService rabbit;
 
     @Autowired
-    public OrderConroller(OrderRepository orderRepository, OrderProps orderProps) {
+    public OrderController(OrderRepository orderRepository, OrderProps orderProps, OrderMessagingService rabbit) {
         this.orderRepository = orderRepository;
         this.orderProps = orderProps;
+        this.rabbit = rabbit;
     }
 
     @GetMapping("/current")
@@ -65,7 +68,9 @@ public class OrderConroller {
         }
         log.info("Order submitted: {}", order);
         order.setUser(user);
+        rabbit.sendOrder(order);
         orderRepository.save(order);
+        log.info("Order submitted: {}", order);
         sessionStatus.setComplete();
         return "redirect:/";
     }
