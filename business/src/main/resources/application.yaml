@@ -14,7 +14,8 @@ spring:
     template:
       exchange: taco_exchange
       routing-key: central
-
+  kafka:
+    bootstrap-servers: localhost:9092
 taco:
   orders:
     page-size: 20
