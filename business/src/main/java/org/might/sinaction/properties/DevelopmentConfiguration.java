@@ -1,5 +1,6 @@
 package org.might.sinaction.properties;
 
+import org.apache.kafka.clients.admin.NewTopic;
 import org.might.sinaction.db.entity.Ingredient;
 import org.might.sinaction.db.entity.Taco;
 import org.might.sinaction.db.entity.User;
@@ -85,6 +86,11 @@ public class DevelopmentConfiguration {
                 tacoRepository.save(taco3);
             }
         };
+    }
+
+    @Bean
+    public NewTopic foos() {
+        return new NewTopic("cloud.orders.topic", 1, (short) 1);
     }
 
 }

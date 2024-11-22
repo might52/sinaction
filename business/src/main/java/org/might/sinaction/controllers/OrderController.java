@@ -30,13 +30,13 @@ public class OrderController {
 
     private final OrderRepository orderRepository;
     private final OrderProps orderProps;
-    private final OrderMessagingService rabbit;
+    private final OrderMessagingService orderMessagingService;
 
     @Autowired
-    public OrderController(OrderRepository orderRepository, OrderProps orderProps, OrderMessagingService rabbit) {
+    public OrderController(OrderRepository orderRepository, OrderProps orderProps, OrderMessagingService orderMessagingService) {
         this.orderRepository = orderRepository;
         this.orderProps = orderProps;
-        this.rabbit = rabbit;
+        this.orderMessagingService = orderMessagingService;
     }
 
     @GetMapping("/current")
@@ -68,7 +68,7 @@ public class OrderController {
         }
         log.info("Order submitted: {}", order);
         order.setUser(user);
-        rabbit.sendOrder(order);
+        orderMessagingService.sendOrder(order);
         orderRepository.save(order);
         log.info("Order submitted: {}", order);
         sessionStatus.setComplete();

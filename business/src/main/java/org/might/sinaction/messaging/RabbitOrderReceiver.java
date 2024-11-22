@@ -2,7 +2,6 @@ package org.might.sinaction.messaging;
 
 import lombok.extern.slf4j.Slf4j;
 import org.might.sinaction.db.entity.TacoOrder;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -25,10 +24,9 @@ public class RabbitOrderReceiver implements OrderReceiver {
         });
     }
 
-    @RabbitListener(queues = "queue")
+    //    @RabbitListener(queues = "queue")
     public void receiveOrderListener(TacoOrder tacoOrder) {
         log.info("Received order: {}", tacoOrder);
     }
-
 
 }
